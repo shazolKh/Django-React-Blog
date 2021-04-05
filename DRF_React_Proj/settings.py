@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'blog',
     'blog_api',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -131,9 +132,15 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
 }
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
+
+# Custom user model
+AUTH_USER_MODEL = 'users.NewUser'
