@@ -2,7 +2,12 @@ from django.shortcuts import render
 from rest_framework import generics
 from blog.models import Post
 from .serializers import PostSerializer
-from rest_framework.permissions import SAFE_METHODS, DjangoModelPermissions, BasePermission
+from rest_framework.permissions import (
+    SAFE_METHODS,
+    DjangoModelPermissions,
+    BasePermission,
+    AllowAny
+)
 
 
 # Create your views here.
@@ -18,12 +23,12 @@ class PostUserWritePermission(BasePermission):
 
 
 class PostList(generics.ListCreateAPIView):
-    permission_classes = [DjangoModelPermissions]
+    permission_classes = [AllowAny]
     queryset = Post.objects.filter(status='published').order_by('-published')
     serializer_class = PostSerializer
 
 
 class PostDetails(generics.RetrieveUpdateDestroyAPIView, PostUserWritePermission):
-    permission_classes = [PostUserWritePermission]
+    permission_classes = [AllowAny]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
